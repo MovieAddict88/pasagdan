@@ -32,11 +32,11 @@ foreach ($configurations as $config) {
             <h2 class="card-title">📋 Quick Navigation</h2>
             <div class="quick-links">
                 <?php foreach (array_keys($carriers) as $carrier): ?>
-                    <a href="#carrier-<?php echo strtolower(str_replace(' ', '-', $carrier)); ?>" class="btn btn-secondary btn-sm">
+                    <a href="#carrier-<?php echo strtolower(str_replace(' ', '-', $carrier)); ?>" class="btn btn-outline-primary btn-sm">
                         <span class="material-icons">router</span> <?php echo htmlspecialchars($carrier); ?>
                     </a>
                 <?php endforeach; ?>
-                <a href="#troubleshooting" class="btn btn-secondary btn-sm">
+                <a href="#troubleshooting" class="btn btn-outline-secondary btn-sm">
                     <span class="material-icons">build</span> Troubleshooting
                 </a>
             </div>
@@ -59,7 +59,12 @@ foreach ($configurations as $config) {
 
                 <?php foreach ($configs as $index => $config): ?>
                     <div class="tab-content <?php echo $index === 0 ? 'active' : ''; ?>" id="config-<?php echo $config['id']; ?>">
-                        <h4><?php echo htmlspecialchars($config['name']); ?></h4>
+                        <h4 class="config-title">
+                            <?php echo htmlspecialchars($config['name']); ?>
+                            <span class="badge badge-modern <?php echo !empty($config['is_free']) ? 'badge-success' : 'badge-premium'; ?>">
+                                <?php echo htmlspecialchars(!empty($config['is_free']) ? 'Free' : 'Premium'); ?>
+                            </span>
+                        </h4>
                         <div class="config-container">
                             <pre><code class="language-generic"><?php echo htmlspecialchars($config['config_text']); ?></code></pre>
                             <button class="copy-btn" data-clipboard-target="#config-<?php echo $config['id']; ?> pre code">

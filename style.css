@@ -1116,3 +1116,52 @@ html {
     padding-left: 1.5rem;
     margin-bottom: 1rem;
 }
+
+.btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-outline-secondary {
+  background-color: transparent;
+  border: 1px solid var(--gray);
+  color: var(--gray);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--gray);
+  color: white;
+}
+
+.config-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.badge-modern {
+    padding: 0.4em 0.8em;
+    font-size: 0.75em;
+    font-weight: 700;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-premium {
+    background-color: var(--warning);
+    color: var(--dark);
+}
+
+.badge-success {
+    background-color: var(--success);
+    color: var(--dark);
+}
