@@ -78,5 +78,6 @@ return [
     'are_you_sure' => 'Sigurado ka ba?',
     'banned_users' => 'Mga Pinagbawalan na Gumagamit',
     'banned_users_list' => 'Listahan ng mga Pinagbawalan na Gumagamit',
-    'unban_user' => 'I-unban ang Gumagamit'
+    'unban_user' => 'I-unban ang Gumagamit',
+    'no_icons_found' => 'No icons found in assets/promo/. Please upload PNG files.'
 ];

@@ -83,5 +83,6 @@ return [
     'are_you_sure' => 'Are you sure?',
     'banned_users' => 'Banned Users',
     'banned_users_list' => 'Banned Users List',
-    'unban_user' => 'Unban User'
+    'unban_user' => 'Unban User',
+    'no_icons_found' => 'No icons found in assets/promo/. Please upload PNG files.'
 ];

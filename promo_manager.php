@@ -59,8 +59,12 @@ include 'header.php';
                 <select name="icon_promo_path" class="form-control" required>
                     <?php
                     $promo_icons = glob('assets/promo/*.png');
-                    foreach ($promo_icons as $icon) {
-                        echo "<option value='" . htmlspecialchars($icon) . "'>" . htmlspecialchars(basename($icon)) . "</option>";
+                    if (empty($promo_icons)) {
+                        echo "<option value='' disabled selected>" . translate('no_icons_found') . "</option>";
+                    } else {
+                        foreach ($promo_icons as $icon) {
+                            echo "<option value='" . htmlspecialchars($icon) . "'>" . htmlspecialchars(basename($icon)) . "</option>";
+                        }
                     }
                     ?>
                 </select>

@@ -91,5 +91,6 @@ return [
     'are_you_sure' => '¿Estás seguro?',
     'banned_users' => 'Usuarios Baneados',
     'banned_users_list' => 'Lista de Usuarios Baneados',
-    'unban_user' => 'Desbanear Usuario'
+    'unban_user' => 'Desbanear Usuario',
+    'no_icons_found' => 'No icons found in assets/promo/. Please upload PNG files.'
 ];
