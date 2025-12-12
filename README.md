@@ -1,2 +1,2 @@
-# pasagdan
+# basin
 Repository with auto-unzip workflow
