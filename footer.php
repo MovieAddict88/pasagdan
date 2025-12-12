@@ -233,6 +233,60 @@
         }
     </script>
     
+    <!-- Prism.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-generic.min.js"></script>
+
+    <!-- Clipboard.js for copy functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab functionality for tutorial page
+        const tabButtons = document.querySelectorAll('.carrier-tabs .tab-btn');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+                const targetContent = document.getElementById(targetId);
+
+                // Update button states
+                button.parentElement.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Update content visibility
+                targetContent.parentElement.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                targetContent.classList.add('active');
+            });
+        });
+
+        // Initialize Clipboard.js
+        var clipboard = new ClipboardJS('.copy-btn');
+
+        clipboard.on('success', function(e) {
+            const button = e.trigger;
+            const originalText = button.querySelector('.copy-text').innerHTML;
+
+            button.classList.add('copied');
+            button.querySelector('.copy-text').innerHTML = 'Copied!';
+            button.querySelector('.material-icons').innerHTML = 'check';
+
+            setTimeout(() => {
+                button.classList.remove('copied');
+                button.querySelector('.copy-text').innerHTML = originalText;
+                button.querySelector('.material-icons').innerHTML = 'content_copy';
+            }, 2000);
+
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+    });
+    </script>
+
     <!-- Scroll to Top Button (optional - add to long pages) -->
     <button id="scrollToTop" style="
         display: none;
