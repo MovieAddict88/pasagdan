@@ -1007,3 +1007,112 @@ html {
         animation: none;
     }
 }
+/* Tutorial Page Specific Styles */
+.tutorial-page .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tutorial-page .quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.tutorial-page .card-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.carrier-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--gray-light);
+    padding-bottom: 1rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    background-color: transparent;
+    color: var(--gray);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: var(--transition);
+    border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background-color: rgba(var(--primary), 0.1);
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.config-container {
+    position: relative;
+    background-color: #2d2d2d;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.config-container pre {
+    margin: 0;
+    padding: 1.5rem;
+    color: #f8f8f2;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--gray);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    opacity: 0.8;
+}
+
+.copy-btn:hover {
+    background-color: var(--primary);
+    opacity: 1;
+}
+
+.copy-btn.copied {
+    background-color: var(--success);
+}
+
+.troubleshooting-section ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}

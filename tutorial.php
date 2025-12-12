@@ -2,7 +2,6 @@
 session_start();
 require_once 'auth.php';
 require_once 'db_config.php';
-
 include 'header.php';
 
 $stmt = $pdo->prepare("SELECT * FROM configurations WHERE is_active = 1 ORDER BY carrier, name");
@@ -16,191 +15,111 @@ foreach ($configurations as $config) {
 ?>
 
 <div class="page-header">
-    <h2>📡 VPN Bypass Configuration Guide</h2>
-    <p>Complete tutorial for carrier-specific VPN configurations</p>
+    <h1><span class="material-icons">description</span> VPN Configuration Tutorial</h1>
 </div>
 
-<div class="container">
-    <div class="warning-box">
-        ⚠️ <strong>Important Disclaimer:</strong> These configurations are for educational purposes only.
-        Use only on networks you own or have permission to test. Unauthorized access is illegal.
+<div class="container tutorial-page">
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">⚠️ Important Disclaimer</h2>
+            <p>These configurations are for educational purposes only. Use them exclusively on networks you own or have explicit permission to test. Unauthorized access is strictly prohibited and illegal.</p>
+        </div>
     </div>
 
-    <div class="section">
-        <h2>📋 Quick Navigation</h2>
-        <div class="quick-links">
-            <?php foreach (array_keys($carriers) as $carrier): ?>
-                <a href="#<?php echo strtolower(str_replace(' ', '', $carrier)); ?>" class="quick-link">
-                    🌐 <?php echo htmlspecialchars($carrier); ?>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">📋 Quick Navigation</h2>
+            <div class="quick-links">
+                <?php foreach (array_keys($carriers) as $carrier): ?>
+                    <a href="#carrier-<?php echo strtolower(str_replace(' ', '-', $carrier)); ?>" class="btn btn-secondary btn-sm">
+                        <span class="material-icons">router</span> <?php echo htmlspecialchars($carrier); ?>
+                    </a>
+                <?php endforeach; ?>
+                <a href="#troubleshooting" class="btn btn-secondary btn-sm">
+                    <span class="material-icons">build</span> Troubleshooting
                 </a>
-            <?php endforeach; ?>
-            <a href="#troubleshoot" class="quick-link">🔧 Troubleshooting</a>
+            </div>
         </div>
     </div>
 
     <?php foreach ($carriers as $carrier => $configs): ?>
-        <?php $carrierId = strtolower(str_replace(' ', '', $carrier)); ?>
-        <div class="section" id="<?php echo $carrierId; ?>">
-            <h2>🌐 <?php echo htmlspecialchars($carrier); ?> Configurations</h2>
+        <div id="carrier-<?php echo strtolower(str_replace(' ', '-', $carrier)); ?>" class="card">
+            <div class="card-header">
+                <h3><span class="material-icons">public</span> <?php echo htmlspecialchars($carrier); ?> Configurations</h3>
+            </div>
+            <div class="card-body">
+                <div class="carrier-tabs">
+                    <?php foreach ($configs as $index => $config): ?>
+                        <button class="tab-btn <?php echo $index === 0 ? 'active' : ''; ?>" data-target="config-<?php echo $config['id']; ?>">
+                            <?php echo htmlspecialchars($config['name']); ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
 
-            <div class="carrier-tabs">
                 <?php foreach ($configs as $index => $config): ?>
-                    <?php $tabId = strtolower(str_replace(' ', '', $carrier . '_' . $config['name'])); ?>
-                    <button class="tab-btn <?php echo $index === 0 ? 'active' : ''; ?>" onclick="showTab('<?php echo $tabId; ?>', '<?php echo $carrierId; ?>')">
-                        <?php echo htmlspecialchars($config['name']); ?>
-                    </button>
+                    <div class="tab-content <?php echo $index === 0 ? 'active' : ''; ?>" id="config-<?php echo $config['id']; ?>">
+                        <h4><?php echo htmlspecialchars($config['name']); ?></h4>
+                        <div class="config-container">
+                            <pre><code class="language-generic"><?php echo htmlspecialchars($config['config_text']); ?></code></pre>
+                            <button class="copy-btn" data-clipboard-target="#config-<?php echo $config['id']; ?> pre code">
+                                <span class="material-icons">content_copy</span>
+                                <span class="copy-text">Copy</span>
+                            </button>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
             </div>
-
-            <?php foreach ($configs as $index => $config): ?>
-                <?php $tabId = strtolower(str_replace(' ', '', $carrier . '_' . $config['name'])); ?>
-                <div class="tab-content <?php echo $index === 0 ? 'active' : ''; ?>" id="<?php echo $tabId; ?>" data-carrier="<?php echo strtolower(str_replace(' ', '', $carrier)); ?>">
-                    <h3><?php echo htmlspecialchars($config['name']); ?></h3>
-                    <div class="config-code">
-                        <pre><?php echo htmlspecialchars($config['config_text']); ?></pre>
-                    </div>
-                    <button class="copy-btn" onclick="copyConfig('<?php echo $tabId; ?>')">Copy Configuration</button>
-                </div>
-            <?php endforeach; ?>
         </div>
     <?php endforeach; ?>
 
-    <div class="section" id="troubleshoot">
-        <h2>🔧 Troubleshooting Guide</h2>
+    <div id="troubleshooting" class="card">
+        <div class="card-header">
+            <h3><span class="material-icons">build</span> Troubleshooting Guide</h3>
+        </div>
+        <div class="card-body">
+            <div class="troubleshooting-section">
+                <h4>Common Issues and Solutions</h4>
+                <p><strong>1. "Waiting for proxy server" error:</strong></p>
+                <ul>
+                    <li>Try different proxy IP addresses.</li>
+                    <li>Change port (e.g., 8080, 80, 3128, 8000).</li>
+                    <li>Ensure the proxy server is active and reachable.</li>
+                </ul>
 
-        <div class="card">
-            <h3>Common Issues and Solutions</h3>
-            <p><strong>1. "Waiting for proxy server" error:</strong></p>
-            <ul>
-                <li>Try different proxy IP addresses</li>
-                <li>Change port (8080, 80, 3128, 8000)</li>
-                <li>Check if proxy server is active</li>
-            </ul>
-
-            <p><strong>2. Constant reconnection:</strong></p>
-            <ul>
-                <li>Add these to your config:</li>
-            </ul>
-            <div class="config-code">
-                <pre>keepalive 10 60
+                <p><strong>2. Constant Reconnection:</strong></p>
+                <p>Add the following lines to your configuration to improve stability:</p>
+                <div class="config-container">
+                    <pre><code id="troubleshoot-reconnect" class="language-generic">keepalive 10 60
 ping-timer-rem
 persist-tun
 persist-key
-reneg-sec 86400</pre>
-            </div>
+reneg-sec 86400</code></pre>
+                    <button class="copy-btn" data-clipboard-target="#troubleshoot-reconnect">
+                        <span class="material-icons">content_copy</span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
 
-            <p><strong>3. Slow speeds:</strong></p>
-            <ul>
-                <li>Try different carrier proxies</li>
-                <li>Use during off-peak hours (12AM-6AM)</li>
-                <li>Optimize MTU settings:</li>
-            </ul>
-            <div class="config-code">
-                <pre>tun-mtu 1500
+                <p><strong>3. Slow Speeds:</strong></p>
+                <ul>
+                    <li>Experiment with different carrier proxies.</li>
+                    <li>Use during off-peak hours (e.g., 12 AM - 6 AM) for less network congestion.</li>
+                    <li>Optimize MTU settings for your network:</li>
+                </ul>
+                <div class="config-container">
+                    <pre><code id="troubleshoot-speed" class="language-generic">tun-mtu 1500
 mssfix 1450
 sndbuf 393216
-rcvbuf 393216</pre>
+rcvbuf 393216</code></pre>
+                    <button class="copy-btn" data-clipboard-target="#troubleshoot-speed">
+                        <span class="material-icons">content_copy</span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
             </div>
-        </div>
-
-        <div class="card">
-            <h3>General .ovpn Template</h3>
-            <div class="config-code">
-                <pre>client
-dev tun
-proto tcp
-
-# VPN Server Connection
-remote am1.vpnjantit.com 1194
-remote-random
-resolv-retry infinite
-
-# HTTP Proxy Headers (Choose from above)
-http-proxy-option AGENT "Mozilla/5.0 (Linux; Android 13)"
-http-proxy-option VERSION 1.1
-http-proxy-option CUSTOM-HEADER "Host: [CHOOSE_HOST_HERE]"
-http-proxy-option CUSTOM-HEADER "X-Online-Host: [CHOOSE_ONLINE_HOST]"
-
-# Proxy Server (Choose based on carrier)
-http-proxy [PROXY_IP] [PORT]
-http-proxy-timeout 30
-http-proxy-retry
-
-# Basic Settings
-nobind
-persist-key
-persist-tun
-auth-user-pass
-keepalive 10 60
-verb 3
-
-# Encryption
-cipher AES-128-CBC
-auth SHA1
-
-# DNS
-dhcp-option DNS 8.8.8.8
-dhcp-option DNS 8.8.4.4
-
-# Routing
-redirect-gateway def1
-route-delay 2</pre>
-            </div>
-            <button class="copy-btn" onclick="copyConfig('template')">Copy Template</button>
         </div>
     </div>
 </div>
-
-<div id="successMessage" class="success-message">✅ Configuration copied to clipboard!</div>
-
-<script>
-    function showTab(tabId, carrierId) {
-        const carrierSection = document.getElementById(carrierId);
-        // Hide all tab content within the same carrier section
-        carrierSection.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        // Deactivate all tab buttons within the same carrier section
-        carrierSection.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        // Show the selected tab content
-        document.getElementById(tabId).classList.add('active');
-        // Activate the selected tab button
-        event.target.classList.add('active');
-    }
-
-    function copyConfig(tabId) {
-        const configText = document.querySelector(`#${tabId} .config-code pre`).innerText;
-        const textarea = document.createElement('textarea');
-        textarea.value = configText;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-
-        const successMessage = document.getElementById('successMessage');
-        successMessage.style.display = 'block';
-        setTimeout(() => {
-            successMessage.style.display = 'none';
-        }, 3000);
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 20,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-</script>
 
 <?php include 'footer.php'; ?>
