@@ -285,8 +285,14 @@ $logo_exists = file_exists($logo_path);
                         <span>App Management</span>
                     </a>
                 </li>
-                <li class='<?php echo ($current_page == 'tutorial.html') ? 'active' : ''; ?>'>
-                    <a href='tutorial.html' style="align-items: center;">
+                <li class='<?php echo ($current_page == 'configuration_manager.php') ? 'active' : ''; ?>'>
+                    <a href='configuration_manager.php' style="align-items: center;">
+                        <span class="material-icons">settings_input_component</span>
+                        <span>Configuration Manager</span>
+                    </a>
+                </li>
+                <li class='<?php echo ($current_page == 'tutorial.php') ? 'active' : ''; ?>'>
+                    <a href='tutorial.php' style="align-items: center;">
                         <span class="material-icons">school</span>
                         <span>Tutorial</span>
                     </a>
