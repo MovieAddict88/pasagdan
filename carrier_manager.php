@@ -85,7 +85,7 @@ include 'header.php';
                 <label class="form-label">Icon</label>
                 <select name="icon_path" class="form-control" required>
                     <?php
-                    $icons = glob('assets/carriers/*.png');
+                    $icons = glob('assets/promo/*.png');
                     foreach ($icons as $icon) {
                         $selected = ($edit_carrier && $edit_carrier['icon_path'] == $icon) ? 'selected' : '';
                         echo "<option value='" . htmlspecialchars($icon) . "' $selected>" . htmlspecialchars(basename($icon)) . "</option>";
