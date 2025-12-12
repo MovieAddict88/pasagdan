@@ -285,6 +285,12 @@ $logo_exists = file_exists($logo_path);
                         <span>App Management</span>
                     </a>
                 </li>
+                <li class='<?php echo ($current_page == 'tutorial.html') ? 'active' : ''; ?>'>
+                    <a href='tutorial.html' style="align-items: center;">
+                        <span class="material-icons">school</span>
+                        <span>Tutorial</span>
+                    </a>
+                </li>
                 <li class='<?php echo ($current_page == 'settings.php' || $current_page == 'ads_settings.php') ? 'active' : ''; ?>'>
                     <a href='settings.php' style="align-items: center;">
                         <span class="material-icons">settings</span>
