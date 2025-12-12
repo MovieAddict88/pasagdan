@@ -83,5 +83,6 @@ return [
     'are_you_sure' => 'Sind Sie sicher?',
     'banned_users' => 'Gesperrte Benutzer',
     'banned_users_list' => 'Liste der Gesperrten Benutzer',
-    'unban_user' => 'Benutzer Entsperren'
+    'unban_user' => 'Benutzer Entsperren',
+    'no_icons_found' => 'No icons found in assets/promo/. Please upload PNG files.'
 ];

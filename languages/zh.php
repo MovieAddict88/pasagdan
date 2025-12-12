@@ -78,5 +78,6 @@ return [
     'are_you_sure' => '你确定吗？',
     'banned_users' => '被禁止的用户',
     'banned_users_list' => '被禁止的用户列表',
-    'unban_user' => '取消禁止用户'
+    'unban_user' => '取消禁止用户',
+    'no_icons_found' => 'No icons found in assets/promo/. Please upload PNG files.'
 ];
