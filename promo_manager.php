@@ -13,26 +13,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['promo_name'])) {
     $promo_name = trim($_POST['promo_name']);
     $icon_promo_path = trim($_POST['icon_promo_path']);
     $carrier_id = trim($_POST['carrier_id']);
+    $text_color = trim($_POST['text_color']);
     $promo_id = isset($_POST['promo_id']) ? $_POST['promo_id'] : null;
 
-    if (!empty($promo_name) && !empty($icon_promo_path) && !empty($carrier_id)) {
+    if (!empty($promo_name) && !empty($icon_promo_path) && !empty($carrier_id) && !empty($text_color)) {
         if ($promo_id) {
             // Update existing promo
-            $sql = 'UPDATE promos SET promo_name = :promo_name, icon_promo_path = :icon_promo_path, carrier_id = :carrier_id WHERE id = :id';
+            $sql = 'UPDATE promos SET promo_name = :promo_name, icon_promo_path = :icon_promo_path, carrier_id = :carrier_id, text_color = :text_color WHERE id = :id';
             if ($stmt = $pdo->prepare($sql)) {
                 $stmt->bindParam(':promo_name', $promo_name, PDO::PARAM_STR);
                 $stmt->bindParam(':icon_promo_path', $icon_promo_path, PDO::PARAM_STR);
                 $stmt->bindParam(':carrier_id', $carrier_id, PDO::PARAM_INT);
+                $stmt->bindParam(':text_color', $text_color, PDO::PARAM_STR);
                 $stmt->bindParam(':id', $promo_id, PDO::PARAM_INT);
                 $stmt->execute();
             }
         } else {
             // Add new promo
-            $sql = 'INSERT INTO promos (promo_name, icon_promo_path, carrier_id) VALUES (:promo_name, :icon_promo_path, :carrier_id)';
+            $sql = 'INSERT INTO promos (promo_name, icon_promo_path, carrier_id, text_color) VALUES (:promo_name, :icon_promo_path, :carrier_id, :text_color)';
             if ($stmt = $pdo->prepare($sql)) {
                 $stmt->bindParam(':promo_name', $promo_name, PDO::PARAM_STR);
                 $stmt->bindParam(':icon_promo_path', $icon_promo_path, PDO::PARAM_STR);
                 $stmt->bindParam(':carrier_id', $carrier_id, PDO::PARAM_INT);
+                $stmt->bindParam(':text_color', $text_color, PDO::PARAM_STR);
                 $stmt->execute();
             }
         }
@@ -109,6 +112,10 @@ include 'header.php';
                 </select>
             </div>
             <div class="form-group">
+                <label class="form-label">Text Color</label>
+                <input type="text" name="text_color" class="form-control" value="<?php echo $edit_promo ? htmlspecialchars($edit_promo['text_color']) : ''; ?>" required>
+            </div>
+            <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="<?php echo $edit_promo ? 'Update Promo' : 'Add Promo'; ?>">
                 <?php if ($edit_promo): ?>
                     <a href="promo_manager.php" class="btn btn-secondary">Cancel Edit</a>
@@ -130,6 +137,7 @@ include 'header.php';
                     <th><?php echo translate('promo_name'); ?></th>
                     <th><?php echo translate('icon'); ?></th>
                     <th>Carrier</th>
+                    <th>Text Color</th>
                     <th><?php echo translate('actions'); ?></th>
                 </tr>
             </thead>
@@ -144,6 +152,7 @@ include 'header.php';
                     echo "<td>" . htmlspecialchars($promo['promo_name']) . "</td>";
                     echo "<td><img src='" . htmlspecialchars($base_url . $promo['icon_promo_path']) . "' alt='icon' width='30'></td>";
                     echo "<td>" . htmlspecialchars($promo['carrier_name']) . "</td>";
+                    echo "<td><span style='display: inline-block; width: 20px; height: 20px; background-color: " . htmlspecialchars($promo['text_color']) . "; border: 1px solid #ccc;'></span> " . htmlspecialchars($promo['text_color']) . "</td>";
                     echo "<td>
                             <a href='promo_manager.php?edit=" . $promo['id'] . "' class='btn btn-secondary'>Edit</a>
                             <a href='promo_manager.php?delete=" . $promo['id'] . "' class='btn btn-danger' onclick='return confirm(\"" . htmlspecialchars(translate('are_you_sure'), ENT_QUOTES) . "\")'>" . translate('delete') . "</a>
