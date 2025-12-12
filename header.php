@@ -273,6 +273,12 @@ $logo_exists = file_exists($logo_path);
                         <span><?php echo translate('nav_manage_profiles'); ?></span>
                     </a>
                 </li>
+                <li class='<?php echo ($current_page == 'carrier_manager.php') ? 'active' : ''; ?>'>
+                    <a href='carrier_manager.php' style="align-items: center;">
+                        <span class="material-icons">business</span>
+                        <span>Carrier Manager</span>
+                    </a>
+                </li>
                 <li class='<?php echo ($current_page == 'promo_manager.php') ? 'active' : ''; ?>'>
                     <a href='promo_manager.php' style="align-items: center;">
                         <span class="material-icons">card_giftcard</span>
@@ -285,10 +291,16 @@ $logo_exists = file_exists($logo_path);
                         <span>App Management</span>
                     </a>
                 </li>
-                <li class='<?php echo ($current_page == 'tutorial.html') ? 'active' : ''; ?>'>
-                    <a href='tutorial.html' style="align-items: center;">
+                <li class='<?php echo ($current_page == 'tutorial.php') ? 'active' : ''; ?>'>
+                    <a href='tutorial.php' style="align-items: center;">
                         <span class="material-icons">school</span>
-                        <span>Tutorial</span>
+                        <span>View Tutorial</span>
+                    </a>
+                </li>
+                <li class='<?php echo ($current_page == 'edit_tutorial.php') ? 'active' : ''; ?>'>
+                    <a href='edit_tutorial.php' style="align-items: center;">
+                        <span class="material-icons">edit</span>
+                        <span>Edit Tutorial</span>
                     </a>
                 </li>
                 <li class='<?php echo ($current_page == 'settings.php' || $current_page == 'ads_settings.php') ? 'active' : ''; ?>'>
