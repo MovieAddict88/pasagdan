@@ -48,7 +48,9 @@ echo "App updates table created successfully<br>";
     $sql_promos = 'CREATE TABLE IF NOT EXISTS promos (
         id INT AUTO_INCREMENT PRIMARY KEY,
         promo_name VARCHAR(255) NOT NULL,
-        icon_promo_path VARCHAR(255) NOT NULL
+        icon_promo_path VARCHAR(255) NOT NULL,
+        carrier_id INT,
+        FOREIGN KEY (carrier_id) REFERENCES carriers(id)
     )';
     $pdo->exec($sql_promos);
     echo "Promos table created successfully<br>";
@@ -65,6 +67,43 @@ echo "App updates table created successfully<br>";
     )';
     $pdo->exec($sql_vpn_profiles);
     echo "VPN profiles table created successfully<br>";
+
+    // Create the tutorial table
+    $sql_tutorial = 'CREATE TABLE IF NOT EXISTS tutorial (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        content TEXT NOT NULL
+    )';
+    $pdo->exec($sql_tutorial);
+    echo "Tutorial table created successfully<br>";
+
+    // Create the carriers table
+    $sql_carriers = 'CREATE TABLE IF NOT EXISTS carriers (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        icon_path VARCHAR(255) NOT NULL
+    )';
+    $pdo->exec($sql_carriers);
+    echo "Carriers table created successfully<br>";
+
+    // Check if the tutorial content is already inserted
+    $stmt_tutorial_check = $pdo->prepare('SELECT id FROM tutorial');
+    $stmt_tutorial_check->execute();
+    if ($stmt_tutorial_check->rowCount() === 0) {
+        // Insert tutorial content from tutorial.html
+        $tutorial_html = file_get_contents('tutorial.html');
+        $doc = new DOMDocument();
+        @$doc->loadHTML($tutorial_html);
+        $body = $doc->getElementsByTagName('body')->item(0);
+        $tutorial_content = '';
+        foreach ($body->childNodes as $child) {
+            $tutorial_content .= $doc->saveHTML($child);
+        }
+
+        $insert_tutorial_sql = 'INSERT INTO tutorial (content) VALUES (:content)';
+        $stmt_tutorial_insert = $pdo->prepare($insert_tutorial_sql);
+        $stmt_tutorial_insert->execute(['content' => $tutorial_content]);
+        echo "Tutorial content inserted successfully<br>";
+    }
 
     // Add promo_id to users table if it doesn't exist
     $sql_check_promo_id_users = "SHOW COLUMNS FROM `users` LIKE 'promo_id'";
