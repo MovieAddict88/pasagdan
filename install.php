@@ -66,6 +66,61 @@ echo "App updates table created successfully<br>";
     $pdo->exec($sql_vpn_profiles);
     echo "VPN profiles table created successfully<br>";
 
+    // Create configurations table
+    $sql_configurations = 'CREATE TABLE IF NOT EXISTS configurations (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        carrier VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        config_text TEXT NOT NULL,
+        is_active BOOLEAN NOT NULL DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )';
+    $pdo->exec($sql_configurations);
+    echo "Configurations table created successfully<br>";
+
+    // Insert sample configurations
+    $stmt = $pdo->query("SELECT COUNT(*) FROM configurations");
+    if ($stmt->fetchColumn() == 0) {
+        $sample_configs = [
+            [
+                'carrier' => 'Globe Telecom',
+                'name' => 'GoSURF',
+                'config_text' => '# Globe GoSURF Configuration
+http-proxy-option AGENT "Mozilla/5.0 (Linux; Android 13)"
+http-proxy-option VERSION 1.1
+http-proxy-option CUSTOM-HEADER "Host: gosurf.globe.com.ph"
+http-proxy-option CUSTOM-HEADER "X-Online-Host: globe.com.ph"
+http-proxy-option CUSTOM-HEADER "X-Forward-Host: gosurf.globe.com.ph"
+http-proxy-option CUSTOM-HEADER "Connection: Keep-Alive"
+
+# Choose your proxy server
+http-proxy 110.78.141.147 8080
+# Alternative: http-proxy 203.177.135.129 80'
+            ],
+            [
+                'carrier' => 'Smart Communications',
+                'name' => 'Smart Basic',
+                'config_text' => '# Smart Basic Configuration
+http-proxy-option AGENT "Mozilla/5.0 (Linux; Android 14)"
+http-proxy-option VERSION 1.1
+http-proxy-option CUSTOM-HEADER "Host: internet.smart.com.ph"
+http-proxy-option CUSTOM-HEADER "X-Online-Host: smart.com.ph"
+http-proxy-option CUSTOM-HEADER "X-Forward-Host: smart.com.ph"
+http-proxy-option CUSTOM-HEADER "Connection: Keep-Alive"
+
+# Smart Proxy
+http-proxy 10.102.61.1 8080
+http-proxy-timeout 30'
+            ]
+        ];
+
+        $stmt = $pdo->prepare("INSERT INTO configurations (carrier, name, config_text) VALUES (:carrier, :name, :config_text)");
+        foreach ($sample_configs as $config) {
+            $stmt->execute($config);
+        }
+        echo "Sample configurations inserted successfully<br>";
+    }
+
     // Add promo_id to users table if it doesn't exist
     $sql_check_promo_id_users = "SHOW COLUMNS FROM `users` LIKE 'promo_id'";
     $stmt_check_users = $pdo->prepare($sql_check_promo_id_users);
