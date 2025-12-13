@@ -3,7 +3,12 @@ require_once 'db_config.php';
 require_once 'utils.php';
 
 try {
-    $stmt = $pdo->query("SELECT id, promo_name, icon_promo_path FROM promos ORDER BY promo_name ASC");
+    $stmt = $pdo->query("
+        SELECT DISTINCT pr.id, pr.promo_name, pr.icon_promo_path
+        FROM promos pr
+        JOIN vpn_profiles vp ON pr.id = vp.promo_id
+        ORDER BY pr.promo_name ASC
+    ");
     $promos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $base_url = get_base_url();
