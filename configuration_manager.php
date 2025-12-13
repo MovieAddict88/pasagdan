@@ -25,6 +25,7 @@ include 'header.php';
         <a href="add_configuration.php" class="btn btn-primary">Add New Configuration</a>
     </div>
     <div class="card-body">
+        <div class="table-container">
         <table class="table">
             <thead>
                 <tr>
@@ -51,6 +52,7 @@ include 'header.php';
                 <?php endforeach; ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
