@@ -15,7 +15,7 @@ if (!isset($_GET['id']) && !isset($_POST['id'])) {
 
 $id = $_GET['id'] ?? $_POST['id'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_configuration'])) {
     $carrier = $_POST['carrier'];
     $name = $_POST['promo_name'];
     $config_text = $_POST['config_text'];
@@ -77,7 +77,7 @@ include 'header.php';
                     ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Update Configuration</button>
+            <button type="submit" name="update_configuration" class="btn btn-primary">Update Configuration</button>
         </form>
     </div>
 </div>
