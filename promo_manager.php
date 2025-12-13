@@ -77,18 +77,20 @@ include 'header.php';
         <h3><?php echo translate('existing_promos'); ?></h3>
     </div>
     <div class="card-body">
+        <div class="table-container">
         <table class="table">
             <thead>
                 <tr>
                     <th><?php echo translate('id'); ?></th>
                     <th><?php echo translate('promo_name'); ?></th>
                     <th><?php echo translate('icon'); ?></th>
+                    <th><?php echo translate('configurations'); ?></th>
                     <th><?php echo translate('actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $sql = 'SELECT * FROM promos ORDER BY id DESC';
+                $sql = 'SELECT p.*, COUNT(c.id) AS config_count FROM promos p LEFT JOIN configurations c ON p.id = c.promo_id GROUP BY p.id ORDER BY p.id DESC';
                 $promos = $pdo->query($sql)->fetchAll();
                 $base_url = get_base_url();
                 foreach ($promos as $promo) {
@@ -96,12 +98,14 @@ include 'header.php';
                     echo "<td>" . htmlspecialchars($promo['id']) . "</td>";
                     echo "<td>" . htmlspecialchars($promo['promo_name']) . "</td>";
                     echo "<td><img src='" . htmlspecialchars($base_url . $promo['icon_promo_path']) . "' alt='icon' width='30'></td>";
+                    echo "<td><a href='configuration_manager.php?promo_id=" . htmlspecialchars($promo['id']) . "'>" . htmlspecialchars($promo['config_count']) . "</a></td>";
                     echo "<td><a href='promo_manager.php?delete=" . $promo['id'] . "' class='btn btn-danger' onclick='return confirm(\"" . htmlspecialchars(translate('are_you_sure'), ENT_QUOTES) . "\")'>" . translate('delete') . "</a></td>";
                     echo "</tr>";
                 }
                 ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 

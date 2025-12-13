@@ -8,9 +8,17 @@ if (!is_admin()) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT * FROM configurations ORDER BY carrier, name");
-$stmt->execute();
+$promo_id = isset($_GET['promo_id']) ? (int)$_GET['promo_id'] : 0;
+
+if ($promo_id > 0) {
+    $stmt = $pdo->prepare("SELECT c.*, p.promo_name FROM configurations c LEFT JOIN promos p ON c.promo_id = p.id WHERE c.promo_id = :promo_id ORDER BY c.carrier, c.name");
+    $stmt->execute(['promo_id' => $promo_id]);
+} else {
+    $stmt = $pdo->prepare("SELECT * FROM configurations ORDER BY carrier, name");
+    $stmt->execute();
+}
 $configurations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$promo_name = (!empty($configurations) && $promo_id > 0) ? $configurations[0]['promo_name'] : null;
 
 include 'header.php';
 ?>
@@ -21,7 +29,15 @@ include 'header.php';
 
 <div class="card">
     <div class="card-header">
-        <h3>Configurations</h3>
+        <h3>
+            <?php
+            if ($promo_name) {
+                echo 'Configurations for ' . htmlspecialchars($promo_name);
+            } else {
+                echo 'Configurations';
+            }
+            ?>
+        </h3>
         <a href="add_configuration.php" class="btn btn-primary">Add New Configuration</a>
     </div>
     <div class="card-body">
