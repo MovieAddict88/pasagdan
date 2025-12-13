@@ -27,6 +27,8 @@ $logo_exists = file_exists($logo_path);
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- clipboard.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
     <!-- Logo profile styling -->
     <style>
         /* Logo Profile Styles */
@@ -283,12 +285,6 @@ $logo_exists = file_exists($logo_path);
                     <a href='app_management.php' style="align-items: center;">
                         <span class="material-icons">system_update</span>
                         <span>App Management</span>
-                    </a>
-                </li>
-                <li class='<?php echo ($current_page == 'configuration_manager.php') ? 'active' : ''; ?>'>
-                    <a href='configuration_manager.php' style="align-items: center;">
-                        <span class="material-icons">settings_input_component</span>
-                        <span>Configuration Manager</span>
                     </a>
                 </li>
                 <li class='<?php echo ($current_page == 'tutorial.php') ? 'active' : ''; ?>'>
