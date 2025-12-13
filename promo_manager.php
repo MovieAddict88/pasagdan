@@ -77,6 +77,7 @@ include 'header.php';
         <h3><?php echo translate('existing_promos'); ?></h3>
     </div>
     <div class="card-body">
+        <div class="table-container">
         <table class="table">
             <thead>
                 <tr>
@@ -102,6 +103,7 @@ include 'header.php';
                 ?>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
