@@ -41,20 +41,42 @@ try {
     if (isset($_POST['promo_id']) && !empty($_POST['promo_id'])) {
         $promo_id = $_POST['promo_id'];
 
-        // Prepare a select statement to retrieve profiles for a specific promo
-        $sql = "SELECT p.id, p.name AS profile_name, p.ovpn_config AS profile_content, p.type as profile_type, p.icon_path FROM vpn_profiles p WHERE p.promo_id = :promo_id ORDER BY p.name ASC";
+        // Prepare a select statement to retrieve profiles and their associated promo configurations
+        $sql = "
+            SELECT
+                p.id,
+                p.name AS profile_name,
+                p.ovpn_config,
+                pr.config_text,
+                p.type as profile_type,
+                p.icon_path
+            FROM
+                vpn_profiles p
+            LEFT JOIN
+                promos pr ON p.promo_id = pr.id
+            WHERE
+                p.promo_id = :promo_id
+            ORDER BY
+                p.name ASC";
+
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':promo_id', $promo_id, PDO::PARAM_INT);
         $stmt->execute();
         $profiles = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
         // If no promo_id is provided, return an empty list of profiles.
-        // This prevents showing all profiles when no promo is selected.
         $profiles = [];
     }
 
     $base_url = get_base_url();
     foreach ($profiles as &$profile) {
+        // Combine the base ovpn config with the promo's config text
+        $profile['profile_content'] = $profile['ovpn_config'] . "\n" . $profile['config_text'];
+
+        // Unset the original config fields to keep the response clean
+        unset($profile['ovpn_config']);
+        unset($profile['config_text']);
+
         if (!empty($profile['icon_path'])) {
             $profile['icon_path'] = $base_url . $profile['icon_path'];
         }
