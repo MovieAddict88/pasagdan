@@ -1203,11 +1203,25 @@ html {
     transition: background-color 0.3s ease;
 }
 
-.accordion-header:hover {
+.accordion-header:hover, .accordion-header.active {
     background-color: #e9ecef;
 }
 
+.accordion-header::after {
+    content: 'expand_more';
+    font-family: 'Material Icons';
+    float: right;
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active::after {
+    transform: rotate(180deg);
+}
+
 .accordion-content {
-    padding: 20px;
-    display: none;
+    padding: 0 20px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
 }
