@@ -1,0 +1,6 @@
+127.0.0.1 - - [13/Dec/2025 10:04:28] code 404, message File not found
+127.0.0.1 - - [13/Dec/2025 10:04:28] "GET /verify.html HTTP/1.1" 404 -
+127.0.0.1 - - [13/Dec/2025 10:05:34] "GET /verify.html HTTP/1.1" 200 -
+127.0.0.1 - - [13/Dec/2025 10:05:34] "GET /style.css?v=1.2 HTTP/1.1" 200 -
+127.0.0.1 - - [13/Dec/2025 10:07:24] "GET /verify.html HTTP/1.1" 200 -
+127.0.0.1 - - [13/Dec/2025 10:07:24] "GET /style.css?v=1.2 HTTP/1.1" 200 -
