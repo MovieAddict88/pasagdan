@@ -1,6 +1,4 @@
 <?php
-require_once '../db_config.php';
-
 try {
     // Add new columns to promos table if they don't exist
     $columns = $pdo->query("SHOW COLUMNS FROM `promos`")->fetchAll(PDO::FETCH_COLUMN);
