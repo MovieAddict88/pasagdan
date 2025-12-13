@@ -273,22 +273,16 @@ $logo_exists = file_exists($logo_path);
                         <span><?php echo translate('nav_manage_profiles'); ?></span>
                     </a>
                 </li>
-                <li class='<?php echo ($current_page == 'promo_manager.php') ? 'active' : ''; ?>'>
-                    <a href='promo_manager.php' style="align-items: center;">
-                        <span class="material-icons">card_giftcard</span>
-                        <span><?php echo translate('nav_promo_manager'); ?></span>
+                <li class='<?php echo ($current_page == 'content_management.php' || $current_page == 'promo_manager.php' || $current_page == 'configuration_manager.php') ? 'active' : ''; ?>'>
+                    <a href='content_management.php' style="align-items: center;">
+                        <span class="material-icons">create</span>
+                        <span><?php echo translate('content_management'); ?></span>
                     </a>
                 </li>
                 <li class='<?php echo ($current_page == 'app_management.php') ? 'active' : ''; ?>'>
                     <a href='app_management.php' style="align-items: center;">
                         <span class="material-icons">system_update</span>
                         <span>App Management</span>
-                    </a>
-                </li>
-                <li class='<?php echo ($current_page == 'configuration_manager.php') ? 'active' : ''; ?>'>
-                    <a href='configuration_manager.php' style="align-items: center;">
-                        <span class="material-icons">settings_input_component</span>
-                        <span>Configuration Manager</span>
                     </a>
                 </li>
                 <li class='<?php echo ($current_page == 'tutorial.php') ? 'active' : ''; ?>'>

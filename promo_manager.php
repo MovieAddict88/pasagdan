@@ -8,23 +8,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION
 require_once 'db_config.php';
 require_once 'utils.php';
 
-// Handle Add Promo
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['promo_name'])) {
-    $promo_name = trim($_POST['promo_name']);
-    $icon_promo_path = trim($_POST['icon_promo_path']);
-
-    if (!empty($promo_name) && !empty($icon_promo_path)) {
-        $sql = 'INSERT INTO promos (promo_name, icon_promo_path) VALUES (:promo_name, :icon_promo_path)';
-        if ($stmt = $pdo->prepare($sql)) {
-            $stmt->bindParam(':promo_name', $promo_name, PDO::PARAM_STR);
-            $stmt->bindParam(':icon_promo_path', $icon_promo_path, PDO::PARAM_STR);
-            $stmt->execute();
-        }
-    }
-    header('location: promo_manager.php');
-    exit;
-}
-
 // Handle Delete Promo
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -46,35 +29,8 @@ include 'header.php';
 
 <div class="card">
     <div class="card-header">
-        <h3><?php echo translate('add_new_promo'); ?></h3>
-    </div>
-    <div class="card-body">
-        <form action="promo_manager.php" method="post">
-            <div class="form-group">
-                <label class="form-label"><?php echo translate('promo_name'); ?></label>
-                <input type="text" name="promo_name" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label"><?php echo translate('icon'); ?></label>
-                <select name="icon_promo_path" class="form-control" required>
-                    <?php
-                    $promo_icons = glob('assets/promo/*.png');
-                    foreach ($promo_icons as $icon) {
-                        echo "<option value='" . htmlspecialchars($icon) . "'>" . htmlspecialchars(basename($icon)) . "</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="<?php echo translate('add_promo'); ?>">
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-header">
         <h3><?php echo translate('existing_promos'); ?></h3>
+        <a href="add_promo.php" class="btn btn-primary"><?php echo translate('add_new_promo'); ?></a>
     </div>
     <div class="card-body">
         <table class="table">
@@ -96,7 +52,10 @@ include 'header.php';
                     echo "<td>" . htmlspecialchars($promo['id']) . "</td>";
                     echo "<td>" . htmlspecialchars($promo['promo_name']) . "</td>";
                     echo "<td><img src='" . htmlspecialchars($base_url . $promo['icon_promo_path']) . "' alt='icon' width='30'></td>";
-                    echo "<td><a href='promo_manager.php?delete=" . $promo['id'] . "' class='btn btn-danger' onclick='return confirm(\"" . htmlspecialchars(translate('are_you_sure'), ENT_QUOTES) . "\")'>" . translate('delete') . "</a></td>";
+                    echo "<td>";
+                    echo "<a href='edit_promo.php?id=" . $promo['id'] . "' class='btn btn-primary'>" . translate('edit') . "</a> ";
+                    echo "<a href='promo_manager.php?delete=" . $promo['id'] . "' class='btn btn-danger' onclick='return confirm(\"" . htmlspecialchars(translate('are_you_sure'), ENT_QUOTES) . "\")'>" . translate('delete') . "</a>";
+                    echo "</td>";
                     echo "</tr>";
                 }
                 ?>
