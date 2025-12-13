@@ -4,13 +4,13 @@ require_once 'auth.php';
 require_once 'db_config.php';
 include 'header.php';
 
-$stmt = $pdo->prepare("SELECT * FROM configurations WHERE is_active = 1 ORDER BY carrier, name");
+$stmt = $pdo->prepare("SELECT * FROM promos WHERE is_active = 1 ORDER BY carrier, promo_name");
 $stmt->execute();
-$configurations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$promos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $carriers = [];
-foreach ($configurations as $config) {
-    $carriers[$config['carrier']][] = $config;
+foreach ($promos as $promo) {
+    $carriers[$promo['carrier']][] = $promo;
 }
 ?>
 
@@ -52,7 +52,7 @@ foreach ($configurations as $config) {
                 <div class="carrier-tabs">
                     <?php foreach ($configs as $index => $config): ?>
                         <button class="tab-btn <?php echo $index === 0 ? 'active' : ''; ?>" data-target="config-<?php echo $config['id']; ?>">
-                            <?php echo htmlspecialchars($config['name']); ?>
+                            <?php echo htmlspecialchars($config['promo_name']); ?>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -60,7 +60,7 @@ foreach ($configurations as $config) {
                 <?php foreach ($configs as $index => $config): ?>
                     <div class="tab-content <?php echo $index === 0 ? 'active' : ''; ?>" id="config-<?php echo $config['id']; ?>">
                         <h4 class="config-title">
-                            <?php echo htmlspecialchars($config['name']); ?>
+                            <?php echo htmlspecialchars($config['promo_name']); ?>
                             <span class="badge badge-modern <?php echo !empty($config['is_free']) ? 'badge-success' : 'badge-premium'; ?>">
                                 <?php echo htmlspecialchars(!empty($config['is_free']) ? 'Free' : 'Premium'); ?>
                             </span>
